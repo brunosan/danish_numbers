@@ -78,7 +78,7 @@ function checkAnswer() {
         answerStatus.style.color = 'green';
     } else {
         incorrectAnswers++;
-        answerStatus.textContent = `Incorrect! "${numbers[currentNumberKey]}" is "${correctAnswer}".`;
+        answerStatus.textContent = `Incorrect! "${numbers[currentNumberKey]}" is "${correctAnswer}". Not "${userAnswer}".`;
         answerStatus.style.color = 'red';
     }
 
