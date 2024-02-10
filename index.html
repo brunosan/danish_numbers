@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Danish Numbers Practice</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,7 +12,6 @@
     <div class="container">
         <h1>Danish Numbers Practice</h1>
         <div id="mode">Loading...</div>
-        <div>
             <label for="difficulty">Select Difficulty:</label>
             <select id="difficulty">
                 <option value="easy">Easy (1-10)</option>
@@ -20,14 +20,14 @@
             </select>
         </div>
         <button id="toggleMode">Switch Mode</button>
-        <div id="question"></div>
-        <input type="text" id="answerInput" placeholder="Your answer...">
-        <button id="submitAnswer">Submit Answer</button>
-        <div>
-            <h2>Answers:</h2>
-            </div><div id="answerStatus"></div>
-            <div id="results"></div>
-        </div>  
+        <div class="qa-section">
+            <div id="question" class="question"></div>
+            <input type="text" id="answerInput" placeholder="Your answer..." inputmode="numeric">
+            <button id="submitAnswer">Submit Answer</button>
+            <div id="answerStatus"></div>
+        </div>
+        <div id="results"></div>
+
         <div id="github-link">
             <a href="https://github.com/brunosan/danish_numbers">GitHub Repository</a>
         </div>
