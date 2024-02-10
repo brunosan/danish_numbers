@@ -8,6 +8,7 @@ let answersHistory = {}; // Track answers history to identify most mistaken numb
 const modeDiv = document.getElementById('mode');
 const questionDiv = document.getElementById('question');
 const answerInput = document.getElementById('answerInput');
+const answerStatus = document.getElementById('answerStatus');
 const submitAnswerButton = document.getElementById('submitAnswer');
 const resultsDiv = document.getElementById('results');
 const difficulty = document.getElementById('difficulty');
@@ -70,37 +71,50 @@ document.getElementById('difficulty').addEventListener('change', function() {
 function checkAnswer() {
     const userAnswer = answerInput.value.trim();
     const correctAnswer = currentMode === 'read' ? numbers[currentNumberKey] : currentNumberKey;
-    const answerStatus = document.createElement('div');
+    answerStatus.textContent = '';
     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
         correctAnswers++;
         answerStatus.textContent = 'Correct!';
         answerStatus.style.color = 'green';
     } else {
         incorrectAnswers++;
-        answerStatus.textContent = `Incorrect! The correct answer was "${correctAnswer}".`;
+        answerStatus.textContent = `Incorrect! "${numbers[currentNumberKey]}" is "${correctAnswer}".`;
         answerStatus.style.color = 'red';
     }
-    questionDiv.parentNode.insertBefore(answerStatus, questionDiv);
-    setTimeout(() => {
-        answerStatus.remove();
-    }, 2000); // Remove the status message after 2 seconds
+
+    if (!answersHistory[currentNumberKey]) {
+        answersHistory[currentNumberKey] = { correct: 0, incorrect: 0 };
+    }
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        answersHistory[currentNumberKey].correct++;
+    } else {
+        answersHistory[currentNumberKey].incorrect++;
+    }
+
     updateResults();
     generateQuestion(difficulty.value);
     answerInput.value = '';
+    answerInput.focus();
 }
 
 function updateResults() {
-    resultsDiv.innerHTML = `<strong>Results:</strong><br>Correct answers: ${correctAnswers}<br>Incorrect answers: ${incorrectAnswers}`;
+    let tableHTML = `<strong>Results:</strong><br><table><tr><th>Number</th><th>Text</th><th>Correctness</th></tr>`;
 
-    // Additional stats for most mistaken and memorized numbers
-    let mostMistaken = Object.keys(answersHistory).sort((a, b) => answersHistory[b].incorrect - answersHistory[a].incorrect)[0];
-    let mostMemorized = Object.keys(answersHistory).sort((a, b) => answersHistory[b].correct - answersHistory[a].correct)[0];
-    if(mostMistaken) {
-        resultsDiv.innerHTML += `<br>Most mistaken number: "${mostMistaken}" (${answersHistory[mostMistaken].incorrect} times)`;
-    }
-    if(mostMemorized) {
-        resultsDiv.innerHTML += `<br>Best memorized number: "${mostMemorized}" (${answersHistory[mostMemorized].correct} times)`;
-    }
+    // Reverse the order of keys
+    const reversedKeys = Object.keys(answersHistory).reverse();
+
+    reversedKeys.forEach(number => {
+        const text = numbers[number];
+        const correctCount = answersHistory[number].correct;
+        const incorrectCount = answersHistory[number].incorrect;
+        const totalAttempts = correctCount + incorrectCount;
+        const correctness = totalAttempts > 0 ? `${((correctCount / totalAttempts) * 100).toFixed(0)}%` : 'N/A';
+
+        tableHTML += `<tr><td>${number}</td><td>${text}</td><td>${correctness}</td></tr>`;
+    });
+
+    tableHTML += `</table>`;
+    resultsDiv.innerHTML = tableHTML;
 }
 
 document.getElementById('toggleMode').addEventListener('click', () => {
@@ -110,3 +124,6 @@ document.getElementById('toggleMode').addEventListener('click', () => {
 
 document.getElementById('submitAnswer').addEventListener('click', checkAnswer);
 
+document.addEventListener('DOMContentLoaded', function() {
+    answerInput.focus(); 
+});
