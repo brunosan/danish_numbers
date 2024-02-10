@@ -74,7 +74,7 @@ function checkAnswer() {
     answerStatus.textContent = '';
     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
         correctAnswers++;
-        answerStatus.textContent = 'Correct!';
+        answerStatus.textContent = `Correct! "${numbers[currentNumberKey]}" is "${correctAnswer}".`;
         answerStatus.style.color = 'green';
     } else {
         incorrectAnswers++;
