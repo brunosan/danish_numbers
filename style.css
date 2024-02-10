@@ -8,12 +8,13 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
 }
+
 .container {
     text-align: center;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 400px;
     width: 100%;
@@ -24,7 +25,27 @@ body {
     padding: 20px;
     margin-top: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#answerInput {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+button {
+    width: auto;
 }
 
 .question {
@@ -33,9 +54,6 @@ body {
     margin-bottom: 10px;
 }
 
-#answerInput {
-    margin-bottom: 10px;
-}
 
 button {
     margin-top: 20px;
@@ -47,6 +65,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
 input {
     padding: 10px;
     margin-top: 10px;
@@ -64,9 +83,6 @@ input {
     display: none;
 }
 
-#submitAnswer {
-    display: none;
-}
 
 #results {
     text-align: left;
@@ -77,29 +93,30 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-  }
-  
-  table th, table td {
+}
+
+table th,
+table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
-  }
-  
-  table th {
-    background-color: #f2f2f2;
-  }
-  
-  table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  table tr:hover {
-    background-color: #f2f2f2;
-  }
+}
 
-  @media (max-width: 600px) {
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 600px) {
     .container {
-      width: 100%;
-      padding: 10px;
+        width: 100%;
+        padding: 10px;
     }
-  }
+}
