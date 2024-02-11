@@ -85,6 +85,7 @@ function checkAnswer() {
     if (!answersHistory[currentNumberKey]) {
         answersHistory[currentNumberKey] = { correct: 0, incorrect: 0 };
     }
+    answersHistory[currentNumberKey].userAnswer = userAnswer;
     if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
         answersHistory[currentNumberKey].correct++;
     } else {
@@ -98,22 +99,25 @@ function checkAnswer() {
 }
 
 function updateResults() {
-    let tableHTML = `<strong>Results:</strong><br><table><tr><th>Number</th><th>Text</th><th>Correctness</th></tr>`;
+    const totalQuestions = correctAnswers + incorrectAnswers;
+    const score = totalQuestions > 0 ? `${((correctAnswers / totalQuestions) * 100).toFixed(0)}%` : 'N/A';
+
+    
+    let tableHTML = `<strong>Results: <strong>Total Correct: ${score}</strong><br></strong><br><table><tr><th>Number</th><th>Text</th><th>Correct?</th></tr>`;
 
     // Reverse the order of keys
-    const reversedKeys = Object.keys(answersHistory).reverse();
+    const Keys = Object.keys(answersHistory);
 
-    reversedKeys.forEach(number => {
+    let tableHTMLbody = '';
+    Keys.forEach(number => {
         const text = numbers[number];
-        const correctCount = answersHistory[number].correct;
-        const incorrectCount = answersHistory[number].incorrect;
-        const totalAttempts = correctCount + incorrectCount;
-        const correctness = totalAttempts > 0 ? `${((correctCount / totalAttempts) * 100).toFixed(0)}%` : 'N/A';
+        const wasCorrect = answersHistory[number].userAnswer.toLowerCase() === number.toLowerCase();
 
-        tableHTML += `<tr><td>${number}</td><td>${text}</td><td>${correctness}</td></tr>`;
+        tableHTMLbody = `<tr><td>${number}</td><td>${text}</td><td>${wasCorrect ? 'Correct' : `Incorrect (${answersHistory[number].userAnswer})`}</td></tr>`
+                  + tableHTMLbody;
     });
 
-    tableHTML += `</table>`;
+    tableHTML += tableHTMLbody + `</table>`;
     resultsDiv.innerHTML = tableHTML;
 }
 
